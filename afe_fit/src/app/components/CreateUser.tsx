@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import { decode } from "punycode";
 import React, { useState, useEffect } from "react";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const CreateUser: React.FC = () => {
     const [formData, setNewTrainer] = useState({
@@ -11,17 +11,27 @@ const CreateUser: React.FC = () => {
         password: '',
         accountType: 'Client',
       });
-      const [jwtToken, setJwtToken] = useState<string | null>(null);
       const [showCreateUserFields, setShowCreateUserFields] = useState(false);
-      const [tokenDecoded, setTokenDecoded] = useState();
+      const [jwtToken, setJwtToken] = useState<string>('');
+      const [tokenDecoded, setTokenDecoded] = useState<JwtPayload | null>(null);
 
       useEffect(() => {
         const token = localStorage.getItem('jwtToken');
-        setJwtToken(token);
-        setTokenDecoded(jwt.decode(token));
+        if (token !== null) {
+          setJwtToken(token);
+        }
+      
+        if (token) {
+          try {
+            const tokenDecoded = jwt.decode(token) as JwtPayload;
+            setTokenDecoded(tokenDecoded);
+          } catch (error) {
+            console.error('Error decoding JWT token:');
+          }
+        }
       }, []);
     
-      const handleChange = (e) => {
+      const handleChange = (e: any) => {
         setNewTrainer({
           ...formData,
           [e.target.name]: e.target.value,
@@ -33,7 +43,7 @@ const CreateUser: React.FC = () => {
         const dataToSend = {
           ...formData,
           userId: 0,
-          personaltrainerId: tokenDecoded.UserId,
+          personaltrainerId: tokenDecoded?.UserId || 0,
         };
         console.log('Client creation data ', dataToSend);
         fetch('https://afefitness2023.azurewebsites.net/api/Users', {

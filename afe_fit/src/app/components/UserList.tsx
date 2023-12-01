@@ -1,20 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import CreateWorkoutDialog from "./CreateWorkoutDialog";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import User from '../Models/user';
 
 const UserList: React.FC = () => {
-  const [jwtToken, setJwtToken] = useState<string | null>(null);
   const [showUserListFields, setShowUserListFields] = useState(false);
   const [userList, setUserList] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [tokenDecoded, setTokenDecoded] = useState();
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [jwtToken, setJwtToken] = useState<string>('');
+  const [tokenDecoded, setTokenDecoded] = useState<JwtPayload | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<number>(0);
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
-    setJwtToken(token);
-    setTokenDecoded(jwt.decode(token));
+    if (token !== null) {
+      setJwtToken(token);
+    }
+  
+    if (token) {
+      try {
+        const tokenDecoded = jwt.decode(token) as JwtPayload;
+        setTokenDecoded(tokenDecoded);
+      } catch (error) {
+        console.error('Error decoding JWT token:');
+      }
+    }
   }, []);
 
   const fetchUserList = () => {
@@ -98,7 +109,7 @@ const UserList: React.FC = () => {
       {showUserListFields && (
         <>
             <ul style={{ listStyle: "none", padding: 0 }}>
-            {userList.map((user) => (
+            {userList.map((user: User) => (
                 <li
                 key={user.userId} // Add unique key prop here
                 style={{
@@ -136,7 +147,7 @@ const UserList: React.FC = () => {
       <CreateWorkoutDialog
         open={openDialog}
         onClose={handleCloseDialog}
-        onCreateWorkout={(workoutData) => handleCreateWorkout(selectedUserId, workoutData)}
+        onCreateWorkout={(workoutData: any) => handleCreateWorkout(selectedUserId, workoutData)}
       />
     </div>
   );

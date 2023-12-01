@@ -77,7 +77,7 @@ const WorkoutList: React.FC = () => {
         const data = await response.json();
         return data;
       } catch (error) {
-        console.error('Error fetching updated workout programs:', error.message);
+        console.error('Error fetching updated workout programs:', error);
         throw error;
       }
     }
@@ -111,7 +111,7 @@ const WorkoutList: React.FC = () => {
       // Close the exercise form dialog
       fhideExerciseForm();
     } catch (error) {
-      console.error('Error adding exercise:', error.message);
+      console.error('Error adding exercise:', error);
     }
   };
 

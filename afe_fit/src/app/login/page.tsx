@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import './login.css';
 
 
@@ -25,7 +25,7 @@ const LoginPage = () => {
     try {
       var response1 = await fetch('https://afefitness2023.azurewebsites.net/api/Users/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
       var data = await response1.json();
-      var tokendecoded = jwt.decode(data.jwt);
+      var tokendecoded: JwtPayload = jwt.decode(data.jwt) as JwtPayload;
 
       if (tokendecoded) {
         await setJwtToken(data.jwt);
