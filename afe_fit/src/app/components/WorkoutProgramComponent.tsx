@@ -12,16 +12,23 @@ interface WorkoutProgramComponentProps {
 
 const WorkoutProgramComponent: React.FC<WorkoutProgramComponentProps> = ({ program, IsSelected, PassedOnClick }) => {
   return (
-    <div onClick={PassedOnClick} style={{ cursor: 'pointer', border: IsSelected ? '2px solid blue' : '2px solid transparent' }}>
+    <div onClick={PassedOnClick} style={{
+      border: '2px solid black',
+      background: "white",
+      borderRadius: "5px",
+      padding: "10px",
+      marginBottom: "10px",
+      color: "black",
+    }}>
       <h2>{program.name}</h2>
       <p>Description: {program.description}</p>
       {IsSelected && (
         <ul>
           {program.exercises?.map((exercise) => (
-            <div key={exercise.exerciseId}>
+            <div key={exercise.exerciseId} >
               <h3>{`${exercise.name ? exercise.name : "!Exercise has no name!"}`}</h3>
               <p>Description: {exercise.description}</p>
-              <p>Reps/Time: {exercise.repetitions ? exercise.repetitions : exercise.time}</p>
+              <p>Reps/Time: {exercise.repetitions ? exercise.repetitions + ' reps' : exercise.time + ' sec'}</p>
               <p>Sets: {exercise.sets ? exercise.sets : exercise.time}</p>
             </div>
           ))}
