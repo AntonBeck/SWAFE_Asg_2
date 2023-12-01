@@ -5,10 +5,10 @@ const handleLogout = () => {
   window.location.href = "/login";
 };
 
-const ManagerNavbar: React.FC = () => {
+const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
-        <span className="hi-manager">Hi Manager</span>
+        <span className="hi-manager">Welcome</span>
       <li className="navbar-item">
           <Button className="logout-button" onClick={handleLogout} style={{ backgroundColor: '#FF292961', color: '#1b4027', fontSize: '12px', }}>
             Log out↩
@@ -44,4 +44,4 @@ const ManagerNavbar: React.FC = () => {
   );
 };
 
-export default ManagerNavbar;
+export default Navbar;

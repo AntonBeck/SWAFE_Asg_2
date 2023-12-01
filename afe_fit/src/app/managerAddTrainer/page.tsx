@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { Button, TextField, Link } from '@mui/material';
+import Navbar from '../components/navbar';
 
 const ManagerAddTrainer = () => {
   const [formData, setNewTrainer] = useState({
@@ -59,6 +60,7 @@ const ManagerAddTrainer = () => {
         margin: 'auto', 
         padding: '20px',
       }}><form>
+        <Navbar></Navbar>
         <TextField
           label="First Name"
           name="firstName"
