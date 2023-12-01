@@ -12,15 +12,23 @@ const ProgramList: React.FC<{programs: WorkoutProgram[]}> = ({ programs }) => {
   };
 
   return (
-    <div>
+    <div           
+    style={{
+      border: "1px solid black",
+      background: "white",
+      borderRadius: "5px",
+      padding: "10px",
+      marginBottom: "10px",
+      color: "black",
+    }}>
       <h2>Workout Programs</h2>
-      <ul>
-        {programs.map((program) => (
-          
+      <ul >
+        {programs.map((program, index) => (
           <WorkoutProgramComponent key={program.workoutProgramId}
                                    program={program}
-                                   IsSelected={program.workoutProgramId === selectedProgramId}
-                                   PassedOnClick={() => handleProgramSelection(program.workoutProgramId)}/>
+                                   IsSelected={program.workoutProgramId === selectedProgramId || (programs.length === 1 && index === 0)}
+                                   PassedOnClick={() => handleProgramSelection(program.workoutProgramId)}
+                                   />
         ))}
       </ul>
     </div>
