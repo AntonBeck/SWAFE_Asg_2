@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextField, colors } from "@mui/material";
+import { Button } from "@mui/material";
+import CreateWorkoutDialog from "./CreateWorkoutDialog";
+import jwt from 'jsonwebtoken';
 
 const UserList: React.FC = () => {
   const [jwtToken, setJwtToken] = useState<string | null>(null);
   const [showUserListFields, setShowUserListFields] = useState(false);
   const [userList, setUserList] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [tokenDecoded, setTokenDecoded] = useState();
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
+    const token = localStorage.getItem('jwtToken');
     setJwtToken(token);
+    setTokenDecoded(jwt.decode(token));
   }, []);
 
   const fetchUserList = () => {
@@ -26,7 +32,6 @@ const UserList: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        console.log("List of users:", data);
         setUserList(data); // Set the fetched user list
       })
       .catch((error) => {
@@ -34,10 +39,51 @@ const UserList: React.FC = () => {
       });
   };
 
+  const handleOpenDialog = (userId: number) => {
+    setSelectedUserId(userId);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleCreateWorkout = (userId: number, workoutData: any) => {
+    var dataToSend = {
+      ...workoutData,
+      clientId: userId,
+    };
+    console.log(dataToSend);
+    fetch("https://afefitness2023.azurewebsites.net/api/WorkoutPrograms", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      body: JSON.stringify(dataToSend),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok. Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        //setUserList(data); // Set the fetched user list
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user list:", error.message);
+      });
+    // ...
+    // Close the dialog
+    handleCloseDialog();
+  };
+
   return (
-    <form>
+    <div>
       <Button
-      style={{ backgroundColor: "blue", color: "white", marginBottom: "20px" }}
+        style={{ backgroundColor: "blue", color: "white", marginBottom: "20px" }}
         variant="contained"
         onClick={() => {
           setShowUserListFields(!showUserListFields);
@@ -51,28 +97,52 @@ const UserList: React.FC = () => {
       </Button>
       {showUserListFields && (
         <>
-          <ul style={{ listStyle: "none", padding: 0 }}>
+            <ul style={{ listStyle: "none", padding: 0 }}>
             {userList.map((user) => (
-              <li
-                key={user.userId}
+                <li
+                key={user.userId} // Add unique key prop here
                 style={{
-                  border: "1px solid #ccc",
-                  background: "white",
-                  borderRadius: "5px",
-                  padding: "10px",
-                  marginBottom: "10px",
-                  color: "black",
+                    border: "1px solid #ccc",
+                    background: "white",
+                    borderRadius: "5px",
+                    padding: "10px",
+                    marginBottom: "10px",
+                    color: "black",
+                    position: "relative",
                 }}
-              >
+                >
                 <strong>Name:</strong> {user.firstName} {user.lastName} <br />
                 <strong>Email:</strong> {user.email} <br />
                 <strong>Account Type:</strong> {user.accountType}
-              </li>
+
+                {/* Button to Create Workout */}
+                <Button
+                    variant="contained"
+                    style={{
+                    backgroundColor: "green",
+                    color: "white",
+                    marginTop: "10px",
+                    position: "absolute",
+                    bottom: "10px",
+                    right: "10px",
+                    }}
+                    onClick={() => handleOpenDialog(user.userId)}
+                >
+                    Create Workout
+                </Button>
+                </li>
             ))}
-          </ul>
+            </ul>
         </>
       )}
-    </form>
+
+      {/* Workout Creation Dialog */}
+      <CreateWorkoutDialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        onCreateWorkout={(workoutData) => handleCreateWorkout(selectedUserId, workoutData)}
+      />
+    </div>
   );
 };
 
