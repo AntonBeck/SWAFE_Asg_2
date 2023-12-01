@@ -21,7 +21,7 @@ const ProgramList: React.FC<{programs: WorkoutProgram[]}> = ({ programs }) => {
       marginBottom: "10px",
       color: "black",
     }}>
-      <h2>Workout Programs</h2>
+      <strong>Workout Programs</strong>
       <ul >
         {programs.map((program, index) => (
           <WorkoutProgramComponent key={program.workoutProgramId}
