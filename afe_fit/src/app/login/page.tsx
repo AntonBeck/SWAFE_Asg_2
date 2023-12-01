@@ -30,7 +30,6 @@ const LoginPage = () => {
       if (tokendecoded) {
         await setJwtToken(data.jwt);
         await localStorage.setItem('jwtToken', data.jwt);
-        await localStorage.setItem('jwtTokenDecoded', tokendecoded);
 
 
         if (tokendecoded.Role === "Manager") {
