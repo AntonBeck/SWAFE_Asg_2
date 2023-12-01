@@ -7,40 +7,57 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const CreateWorkoutDialog = ({ open, onClose, onCreateWorkout }) => {
-    const [jwtToken, setJwtToken] = useState<string | null>(null);
-    const [tokenDecoded, setTokenDecoded] = useState();
-    const [workoutData, setWorkoutData] = useState({
-        workoutProgramId: 0,
+interface CreateWorkoutDialogProps {
+  open: boolean;
+  onClose: () => void;
+  onCreateWorkout: (workoutData: any) => void;
+}
+
+const CreateWorkoutDialog: React.FC<CreateWorkoutDialogProps> = (props) => {
+  const [jwtToken, setJwtToken] = useState<string>('');
+  const [tokenDecoded, setTokenDecoded] = useState<JwtPayload | null>(null);
+  const [workoutData, setWorkoutData] = useState({
+    workoutProgramId: 0,
+    name: "",
+    description: "",
+    exercises: [
+      {
         name: "",
         description: "",
-        exercises: [
-        {
-            name: "",
-            description: "",
-            sets: 0,
-            repetitions: 0,
-            time: "",
-            personalTrainerId: 0,
-        },
-        ],
-    });
-    useEffect(() => {
-        const token = localStorage.getItem('jwtToken');
-        setJwtToken(token);
-        setTokenDecoded(jwt.decode(token));
-      }, []);
+        sets: 0,
+        repetitions: 0,
+        time: "",
+        personalTrainerId: 0,
+      },
+    ],
+  });
 
-  const handleChange = (field, value) => {
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if (token !== null) {
+      setJwtToken(token);
+    }
+
+    if (token) {
+      try {
+        const tokenDecoded = jwt.decode(token) as JwtPayload;
+        setTokenDecoded(tokenDecoded);
+      } catch (error) {
+        console.error('Error decoding JWT token:', error);
+      }
+    }
+  }, []);
+
+  const handleChange = (field: string, value: string) => {
     setWorkoutData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
   };
 
-  const handleExerciseChange = (index, field, value) => {
+  const handleExerciseChange = (index: number, field: string, value: string | number) => {
     setWorkoutData((prevData) => ({
       ...prevData,
       exercises: prevData.exercises.map((exercise, i) =>
@@ -50,19 +67,18 @@ const CreateWorkoutDialog = ({ open, onClose, onCreateWorkout }) => {
   };
 
   const handleCreate = () => {
-    console.log(tokenDecoded.UserId, "USER ID");
-    onCreateWorkout(workoutData);
+    props.onCreateWorkout(workoutData);
     setWorkoutData({
-        workoutProgramId: 0,
-        name: "",
-        description: "",
-        exercises: [{ name: "", description: "", sets: 0, repetitions: 0, time: "", personalTrainerId: tokenDecoded.UserId }],
+      workoutProgramId: 0,
+      name: "",
+      description: "",
+      exercises: [{ name: "", description: "", sets: 0, repetitions: 0, time: "", personalTrainerId: 0 }],
     });
-    onClose();
+    props.onClose();
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle>Create Workout Program</DialogTitle>
       <DialogContent>
         <TextField
@@ -122,7 +138,7 @@ const CreateWorkoutDialog = ({ open, onClose, onCreateWorkout }) => {
         ))}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={props.onClose} color="primary">
           Cancel
         </Button>
         <Button onClick={handleCreate} color="primary">

@@ -85,7 +85,7 @@ const WorkoutList: React.FC = () => {
 
         setWorkoutPrograms((prevPrograms) => [...data]);
       } catch (error) {
-        console.error('Error fetching updated workout programs:', error);
+        throw error;
       }
     }
   };

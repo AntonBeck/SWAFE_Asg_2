@@ -18,7 +18,7 @@ const ManagerAddTrainer = () => {
     setJwtToken(token);
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setNewTrainer({
       ...formData,
       [e.target.name]: e.target.value,

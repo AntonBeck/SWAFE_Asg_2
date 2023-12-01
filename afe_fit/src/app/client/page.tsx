@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import WorkoutProgram from '../Models/WorkoutProgram';
 import ProgramList from '../components/WorkoutProgramList';
-import jwt, { Jwt } from 'jsonwebtoken';
-
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import Navbar from '../components/navbar';
 
 const ClientPage = () => {
-    const [workoutPrograms, setWorkoutPrograms] = useState<WorkoutProgram[]>([]);
-    const [jwtToken, setJwtToken] = useState<string | null>('');
-    const [tokenDecoded, setTokenDecoded] = useState<Jwt | null>(null);
+  const [workoutPrograms, setWorkoutPrograms] = useState<WorkoutProgram[]>([]);
+  const [jwtToken, setJwtToken] = useState<string>('');
+  const [tokenDecoded, setTokenDecoded] = useState<JwtPayload | null>(null);
 
-    useEffect(() => {
-        const token = localStorage.getItem('jwtToken');
-        setJwtToken(token);
-        setTokenDecoded(token ? (jwt.decode(token) as Jwt) : null);
-    }, []);
-
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+  
+    if (token !== null) {
+      setJwtToken(token);
+    }
+  
+    if (token) {
+      try {
+        const tokenDecoded = jwt.decode(token) as JwtPayload;
+        setTokenDecoded(tokenDecoded);
+      } catch (error) {
+        console.error('Error decoding JWT token:');
+      }
+    }
     useEffect(() => {
         if (tokenDecoded !== null) {
             const token = localStorage.getItem('jwtToken');
