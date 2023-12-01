@@ -10,7 +10,7 @@ const clientPage = () => {
 
     useEffect(() => {
         let jwtTokenDecoded = localStorage.getItem('jwtTokenDecoded');
-        restService.makeRequest("/");
+        // restService.makeRequest("/");
     });
 
     return (
