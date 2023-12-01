@@ -4,8 +4,6 @@ import { Button, TextField, Link } from '@mui/material';
 
 const ManagerAddTrainer = () => {
   const [formData, setNewTrainer] = useState({
-    userId: 0,
-    personalTrainerId: 0,
     firstName: '',
     lastName: '',
     email: '',
@@ -56,8 +54,11 @@ const ManagerAddTrainer = () => {
   };
 
   return (
-    <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
-      <form>
+    <div className="body" style={{ 
+        maxWidth: '600px', 
+        margin: 'auto', 
+        padding: '20px',
+      }}><form>
         <TextField
           label="First Name"
           name="firstName"

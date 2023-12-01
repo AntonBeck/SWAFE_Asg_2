@@ -1,0 +1,6 @@
+body {
+    background: url('../../../gym.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    font-family: 'Your Font Here', sans-serif;
+  }
