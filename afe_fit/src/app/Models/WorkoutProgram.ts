@@ -1,5 +1,6 @@
+import Exercise from "./Exercise";
+
 interface WorkoutProgram {
-    color: BackgroundColor | undefined;
     workoutProgramId: number;
     name: string | null;
     description: string | null;

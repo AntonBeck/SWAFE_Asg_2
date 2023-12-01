@@ -1,4 +1,5 @@
 interface Exercise {
+    exerciseId: number
     name: string | null;
     description: string | null ;
     sets: number | null ;
