@@ -1,5 +1,7 @@
 import { Button, TextField } from "@mui/material";
+import { decode } from "punycode";
 import React, { useState, useEffect } from "react";
+import jwt from 'jsonwebtoken';
 
 const CreateUser: React.FC = () => {
     const [formData, setNewTrainer] = useState({
@@ -11,10 +13,12 @@ const CreateUser: React.FC = () => {
       });
       const [jwtToken, setJwtToken] = useState<string | null>(null);
       const [showCreateUserFields, setShowCreateUserFields] = useState(false);
-    
+      const [tokenDecoded, setTokenDecoded] = useState();
+
       useEffect(() => {
         const token = localStorage.getItem('jwtToken');
         setJwtToken(token);
+        setTokenDecoded(jwt.decode(token));
       }, []);
     
       const handleChange = (e) => {
@@ -25,10 +29,11 @@ const CreateUser: React.FC = () => {
       };
     
       const handleSubmit = () => {
+        console.log(tokenDecoded);
         const dataToSend = {
           ...formData,
           userId: 0,
-          personaltrainerId: 0,
+          personaltrainerId: tokenDecoded.UserId,
         };
         console.log('Client creation data ', dataToSend);
         fetch('https://afefitness2023.azurewebsites.net/api/Users', {

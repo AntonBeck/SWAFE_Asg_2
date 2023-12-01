@@ -57,10 +57,11 @@ const UserList: React.FC = () => {
                 key={user.userId}
                 style={{
                   border: "1px solid #ccc",
+                  background: "white",
                   borderRadius: "5px",
                   padding: "10px",
                   marginBottom: "10px",
-                  color: "green",
+                  color: "black",
                 }}
               >
                 <strong>Name:</strong> {user.firstName} {user.lastName} <br />
