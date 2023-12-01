@@ -31,6 +31,7 @@ const LoginPage = () => {
         await setJwtToken(data.jwt);
         await localStorage.setItem('jwtToken', data.jwt);
 
+
         if (tokendecoded.Role === "Manager") {
           router.push('/manager');
         } else if (tokendecoded.Role === "PersonalTrainer") {
