@@ -58,12 +58,12 @@ const CreateUser: React.FC = () => {
           });
       };
     return (
-            <form>
+            <form >
               <h1>Create a User</h1>
               <Button
                 variant="contained"
                 onClick={() => setShowCreateUserFields(!showCreateUserFields)}
-                style={{ backgroundColor: 'blue', color: 'white', marginBottom: '20px' }}
+                style={{ background: 'blue', color: 'white', marginBottom: '20px' }}
               >
                 {showCreateUserFields ? 'Hide Create User' : 'Create User'}
               </Button>
@@ -76,6 +76,7 @@ const CreateUser: React.FC = () => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                    style={{ background: 'white' }}
                   />
                   <TextField
                     label="Last Name"
@@ -84,6 +85,7 @@ const CreateUser: React.FC = () => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                    style={{ background: 'white' }}
                   />
                   <TextField
                     label="Email"
@@ -92,6 +94,7 @@ const CreateUser: React.FC = () => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                    style={{ background: 'white' }}
                   />
                   <TextField
                     label="Password"
@@ -100,6 +103,7 @@ const CreateUser: React.FC = () => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
+                    style={{ background: 'white' }}
                   />
                   <Button
                     variant="contained"
