@@ -4,9 +4,15 @@
 import React from 'react';
 import WorkoutProgram from '../Models/WorkoutProgram';
 
-const WorkoutProgramComponent: React.FC<{program: WorkoutProgram, IsSelected: boolean}> = ({ program, IsSelected }) => {
+interface WorkoutProgramComponentProps {
+  program: WorkoutProgram;
+  IsSelected: boolean;
+  PassedOnClick: () => void;
+}
+
+const WorkoutProgramComponent: React.FC<WorkoutProgramComponentProps> = ({ program, IsSelected, PassedOnClick }) => {
   return (
-    <div>
+    <div onClick={PassedOnClick} style={{ cursor: 'pointer', border: IsSelected ? '2px solid blue' : '2px solid transparent' }}>
       <h2>{program.name}</h2>
       <p>Description: {program.description}</p>
       {IsSelected && (

@@ -1,6 +1,6 @@
 'use client'
 // components/ProgramList.tsx
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import WorkoutProgram from '../Models/WorkoutProgram';
 import WorkoutProgramComponent from './WorkoutProgramComponent';
 
@@ -15,13 +15,13 @@ const ProgramList: React.FC<{programs: WorkoutProgram[]}> = ({ programs }) => {
     <div>
       <h2>Workout Programs</h2>
       <ul>
-        {/* {programs.map((program) => (
+        {programs.map((program) => (
           
-          // <WorkoutProgramComponent key={program.workoutProgramId}
-          //                          program={program}
-          //                          IsSelected={program.workoutProgramId === selectedProgramId}
-          //                          onClick={() => handleProgramSelection(program.workoutProgramId)}/>
-        ))} */}
+          <WorkoutProgramComponent key={program.workoutProgramId}
+                                   program={program}
+                                   IsSelected={program.workoutProgramId === selectedProgramId}
+                                   PassedOnClick={() => handleProgramSelection(program.workoutProgramId)}/>
+        ))}
       </ul>
     </div>
   );
