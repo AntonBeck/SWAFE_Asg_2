@@ -46,7 +46,7 @@ const ClientPage = () => {
 
     return (
         <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
-            {/* You can add Navbar here if needed */}
+            <Navbar></Navbar>
             <ProgramList programs={workoutPrograms} />
         </div>
     );
