@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
 import CreateUser from '../components/CreateUser';
 import UserList from '../components/UserList';
+import WorkoutList from '../components/WorkoutList'
 
 const TrainerPage = () => {
 
@@ -15,6 +16,7 @@ const TrainerPage = () => {
         <Navbar></Navbar>
         <CreateUser></CreateUser>
         <UserList></UserList>
+        <WorkoutList></WorkoutList>
     </div>
   );
 };
