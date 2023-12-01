@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 import './login.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const LoginPage = () => {
+function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -51,7 +52,7 @@ const LoginPage = () => {
           <div className="login-container">
             <div className="logo-container text-center w-1">
             </div>
-            <h1 className="text-center">Welcome to Fit Assignment</h1>
+            <h1 className="text-center">Fitness App</h1>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="email">Email:</label>
@@ -68,6 +69,6 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default LoginPage;

@@ -1,6 +1,7 @@
 body {
-  background: url('../../../gym.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background: #006600 25%, #99cc00 51%, #00cccc 100%;
+  background-size: 400% 400%;
+  animation: animateBackground 20s ease infinite;
   margin: 0;
   font-family: 'Your Font Here', sans-serif;
 }
@@ -10,14 +11,14 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px; 
+  max-width: 400px;
+  margin: 0 auto;
   padding: 20px;
-  border: 1px solid #000000; /* Set border color to blue */
-  background-color: #5779d6; /* Set background color inside the container */
+  border: 1px solid #1b4027;
   border-radius: 8px;
 }
 
-form-group {
+.form-group {
   margin-bottom: 15px;
 }
 
@@ -30,25 +31,36 @@ input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  border: 1px solid #093e61;
+  border: 1px solid #910404;
   border-radius: 4px;
   font-size: 16px;
   margin-bottom: 10px;
-  color:#093e61
 }
 
-button {
-  background-color: #093e61; /* Set button background color to blue */
-  color: #093e61;
+.button {
+  background-color: #3fc744;
+  color: white;
   padding: 10px 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 32px;
+  font-size: 16px;
   display: block;
   margin: 0 auto;
 }
 
-button:hover {
-  background-color: #2980b9; /* Set button background color on hover */
+.button:hover {
+  background-color: #45a049;
+}
+
+@keyframes animateBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
