@@ -1,6 +1,4 @@
-'use client'
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import WorkoutProgram from '../Models/WorkoutProgram';
 import ProgramList from '../components/WorkoutProgramList';
 import jwt, { JwtPayload } from 'jsonwebtoken';
@@ -26,39 +24,36 @@ const ClientPage = () => {
         console.error('Error decoding JWT token:');
       }
     }
-  }, []);
+    useEffect(() => {
+        if (tokenDecoded !== null) {
+            const token = localStorage.getItem('jwtToken');
+
+            fetch(`https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/client/${tokenDecoded.UserId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`Network response was not ok. Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data: WorkoutProgram[]) => {
+                    setWorkoutPrograms(data);
+                })
+                .catch((error) => console.error('Error fetching workout programs:', error.message));
+        }
+    }, [tokenDecoded]);
+
+    return (
+        <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
+            {/* You can add Navbar here if needed */}
+            <ProgramList programs={workoutPrograms} />
+        </div>
+    );
+  };
   
-
-  useEffect(() => {
-    if (tokenDecoded) {
-      const token = localStorage.getItem('jwtToken');
-
-      fetch(`https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/client/${tokenDecoded.userId}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Network response was not ok. Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data: WorkoutProgram[]) => {
-          setWorkoutPrograms(data);
-        })
-        .catch((error) => console.error('Error fetching workout programs:', error.message));
-    }
-  }, [tokenDecoded]);
-
-  return (
-    <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
-      <Navbar />
-      {tokenDecoded ? <ProgramList programs={workoutPrograms} /> : <div>Loading...</div>}
-    </div>
-  );
-};
-
-export default ClientPage;
+  export default ClientPage;

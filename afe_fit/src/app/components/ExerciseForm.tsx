@@ -17,7 +17,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
     repetitions: null,
   });
 
-  const OnCLick = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleClick = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setExerciseData((prevData) => ({
@@ -41,14 +41,12 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
   };
 
   const handleAddExercise = (e: React.MouseEvent) => {
-    // Prevent the click event from propagating to the parent elements
     e.stopPropagation();
 
     onAddExercise({
       ...exerciseData,
     });
 
-    // Reset the form and close the dialog
     setExerciseData({
       exerciseId: 0,
       name: '',
@@ -57,11 +55,11 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
       time: '0',
       repetitions: null,
     });
+
     onClose();
   };
 
   const handleFormClick = (e: React.MouseEvent) => {
-    // Prevent the click event from propagating to the parent elements
     e.stopPropagation();
   };
 
@@ -73,7 +71,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
           label="Name"
           name="name"
           value={exerciseData.name || ''}
-          onChange={OnCLick}
+          onChange={handleClick}
           fullWidth
           margin="normal"
         />
@@ -81,7 +79,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
           label="Description"
           name="description"
           value={exerciseData.description || ''}
-          onChange={OnCLick}
+          onChange={handleClick}
           fullWidth
           margin="normal"
         />
@@ -89,7 +87,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
           label="Sets"
           name="sets"
           value={exerciseData.sets || ''}
-          onChange={OnCLick}
+          onChange={handleClick}
           fullWidth
           margin="normal"
           type="number"
@@ -98,7 +96,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
           label="Time"
           name="time"
           value={exerciseData.time || ''}
-          onChange={OnCLick}
+          onChange={handleClick}
           fullWidth
           margin="normal"
           type="text"
@@ -107,7 +105,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = ({ onClose, onAddExercise }) =
           label="Repetitions"
           name="repetitions"
           value={exerciseData.repetitions || ''}
-          onChange={OnCLick}
+          onChange={handleClick}
           fullWidth
           margin="normal"
           type="number"

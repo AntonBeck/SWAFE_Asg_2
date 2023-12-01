@@ -1,9 +1,11 @@
+// Import necessary dependencies
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import ExerciseForm from './ExerciseForm';
 import Exercise from "../Models/Exercise";
 import WorkoutProgram from "../Models/WorkoutProgram";
 
+// Define the WorkoutList component
 const WorkoutList: React.FC = () => {
   const [jwtToken, setJwtToken] = useState<string | null>(null);
   const [workoutPrograms, setWorkoutPrograms] = useState<WorkoutProgram[]>([]);
@@ -11,13 +13,14 @@ const WorkoutList: React.FC = () => {
   const [selectedWorkoutProgramId, setSelectedWorkoutProgramId] = useState<number | null>(null);
   const [showExerciseForm, setShowExerciseForm] = useState<boolean>(false);
   const [selectedWorkoutProgramDetails, setSelectedWorkoutProgramDetails] = useState<WorkoutProgram | null>(null);
-  const [programList, setProgramList] = useState<WorkoutProgram[]>([]);
 
+  // useEffect to fetch JWT token from localStorage
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     setJwtToken(token);
   }, []);
 
+  // Function to fetch workout program list
   const fetchProgramList = () => {
     fetch("https://afefitness2023.azurewebsites.net/api/WorkoutPrograms/trainer", {
       method: "GET",
@@ -33,13 +36,14 @@ const WorkoutList: React.FC = () => {
         return response.json();
       })
       .then((data) => {
-        setProgramList(data);
+        setWorkoutPrograms(data);
       })
       .catch((error) => {
         console.error("Error fetching user list:", error.message);
       });
   };
 
+  // Function to handle box click and display exercises
   const handleBoxClick = (programId: number) => {
     if (selectedWorkoutProgramId === programId) {
       setSelectedWorkoutProgramId(null);
@@ -51,15 +55,18 @@ const WorkoutList: React.FC = () => {
     }
   };
 
+  // Function to show the exercise form
   const fshowExerciseForm = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShowExerciseForm(true);
   };
 
+  // Function to hide the exercise form
   const fhideExerciseForm = () => {
     setShowExerciseForm(false);
   };
 
+  // Function to fetch updated workout programs
   const fetchUpdatedWorkoutPrograms = async () => {
     if (jwtToken !== null) {
       try {
@@ -75,9 +82,9 @@ const WorkoutList: React.FC = () => {
         }
 
         const data = await response.json();
-        return data;
+
+        setWorkoutPrograms((prevPrograms) => [...data]);
       } catch (error) {
-        console.error('Error fetching updated workout programs:', error);
         throw error;
       }
     }
@@ -85,7 +92,6 @@ const WorkoutList: React.FC = () => {
 
   const handleAddExercise = async (exercise: Exercise) => {
     try {
-      // Ensure there's a selected workout program
       if (!selectedWorkoutProgramDetails) {
         console.error('No selected workout program.');
         return;
@@ -104,12 +110,9 @@ const WorkoutList: React.FC = () => {
         throw new Error(`Error adding exercise. Status: ${response.status}`);
       }
 
-      // Fetch updated list of workout programs
-      const updatedPrograms = await fetchUpdatedWorkoutPrograms();
-      setWorkoutPrograms(updatedPrograms);
-
-      // Close the exercise form dialog
       fhideExerciseForm();
+
+      fetchUpdatedWorkoutPrograms();
     } catch (error) {
       console.error('Error adding exercise:', error);
     }
@@ -127,12 +130,12 @@ const WorkoutList: React.FC = () => {
           }
         }}
       >
-        {showProgramListFields ? "Hide  Workoutlist" : "Show Workoutlist"}
+        {showProgramListFields ? "Hide Workoutlist" : "Show Workoutlist"}
       </Button>
       {showProgramListFields && (
         <>
           <ul style={{ listStyle: "none", padding: 0 }}>
-            {programList.map((workoutProgram) => (
+            {workoutPrograms.map((workoutProgram) => (
               <li
                 key={workoutProgram.workoutProgramId}
                 style={{
@@ -161,6 +164,7 @@ const WorkoutList: React.FC = () => {
                         {workoutProgram.exercises?.map((exercise) => (
                           <li key={exercise.exerciseId}>
                             <strong>Exercise Name:</strong> {exercise.name} <br />
+                            <strong>Description:</strong> {exercise.description} <br />
                             <strong>Repetitions:</strong> {exercise.repetitions} <br />
                             <strong>Sets:</strong> {exercise.sets} <br />
                           </li>
@@ -187,7 +191,7 @@ const WorkoutList: React.FC = () => {
         </>
       )}
 
-      {/* Render ExerciseForm dialog */}
+      {}
       {showExerciseForm && (
         <ExerciseForm
           onClose={fhideExerciseForm}
