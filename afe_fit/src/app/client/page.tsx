@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from 'react';
 import WorkoutProgram from '../Models/WorkoutProgram';
 import ProgramList from '../components/WorkoutProgramList';
@@ -15,7 +16,6 @@ const ClientPage = () => {
     if (token !== null) {
       setJwtToken(token);
     }
-  
     if (token) {
       try {
         const tokenDecoded = jwt.decode(token) as JwtPayload;
@@ -24,6 +24,7 @@ const ClientPage = () => {
         console.error('Error decoding JWT token:');
       }
     }
+  })
     useEffect(() => {
         if (tokenDecoded !== null) {
             const token = localStorage.getItem('jwtToken');
