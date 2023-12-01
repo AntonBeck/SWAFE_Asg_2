@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import WorkoutProgram from '../Models/WorkoutProgram';
 import ProgramList from '../components/WorkoutProgramList';
 import jwt from 'jsonwebtoken';
-
-import restService from '../services/RestService';
+import Navbar from '../components/navbar';
 
 
 const clientPage = () => {
@@ -43,6 +42,7 @@ const clientPage = () => {
 
     return (
       <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
+        <Navbar></Navbar>
         <ProgramList programs={workoutPrograms}/>
       </div>
     );
