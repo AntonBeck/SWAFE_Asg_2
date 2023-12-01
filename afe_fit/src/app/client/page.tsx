@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import Navbar from '../components/navbar';
 
 
-const clientPage = () => {
+const ClientPage = () => {
     const [workoutPrograms, setWorkoutPrograms] = useState<WorkoutProgram[]>([]);
     const [jwtToken, setJwtToken] = useState<string | null>(null);
     const [tokenDecoded, setTokenDecoded] = useState();
@@ -48,4 +48,4 @@ const clientPage = () => {
     );
   };
   
-  export default clientPage;
+  export default ClientPage;
