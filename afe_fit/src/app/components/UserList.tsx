@@ -114,8 +114,6 @@ const UserList: React.FC = () => {
                 <strong>Name:</strong> {user.firstName} {user.lastName} <br />
                 <strong>Email:</strong> {user.email} <br />
                 <strong>Account Type:</strong> {user.accountType}
-
-                {/* Button to Create Workout */}
                 <Button
                     variant="contained"
                     style={{
@@ -135,8 +133,6 @@ const UserList: React.FC = () => {
             </ul>
         </>
       )}
-
-      {/* Workout Creation Dialog */}
       <CreateWorkoutDialog
         open={openDialog}
         onClose={handleCloseDialog}
