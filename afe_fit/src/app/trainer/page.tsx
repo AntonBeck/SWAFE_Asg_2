@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/navbar';
-import createUser from '../components/CreateUser';
 import CreateUser from '../components/CreateUser';
+import UserList from '../components/UserList';
 
 const TrainerPage = () => {
 
@@ -14,6 +14,7 @@ const TrainerPage = () => {
       }}>
         <Navbar></Navbar>
         <CreateUser></CreateUser>
+        <UserList></UserList>
     </div>
   );
 };

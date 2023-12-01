@@ -60,7 +60,7 @@ const CreateUser: React.FC = () => {
                 onClick={() => setShowCreateUserFields(!showCreateUserFields)}
                 style={{ backgroundColor: 'blue', color: 'white', marginBottom: '20px' }}
               >
-                {showCreateUserFields ? 'Hide User Fields' : 'Show User Fields'}
+                {showCreateUserFields ? 'Hide Create User' : 'Create User'}
               </Button>
               {showCreateUserFields && (
                 <>
@@ -99,7 +99,7 @@ const CreateUser: React.FC = () => {
                   <Button
                     variant="contained"
                     onClick={handleSubmit}
-                    style={{ backgroundColor: 'green', color: 'white', marginTop: '20px' }}
+                    style={{ backgroundColor: 'green', color: 'white', marginTop: '20px', marginBottom: '20px' }}
                   >
                     Add User
                   </Button>
