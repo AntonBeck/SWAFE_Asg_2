@@ -62,7 +62,7 @@ const WorkoutList: React.FC = () => {
   };
 
   // Function to hide the exercise form
-  const fhideExerciseForm = () => {
+  const hideExerciseForm = () => {
     setShowExerciseForm(false);
   };
 
@@ -110,7 +110,7 @@ const WorkoutList: React.FC = () => {
         throw new Error(`Error adding exercise. Status: ${response.status}`);
       }
 
-      fhideExerciseForm();
+      hideExerciseForm();
 
       fetchUpdatedWorkoutPrograms();
     } catch (error) {
@@ -194,7 +194,7 @@ const WorkoutList: React.FC = () => {
       {}
       {showExerciseForm && (
         <ExerciseForm
-          onClose={fhideExerciseForm}
+          onClose={hideExerciseForm}
           onAddExercise={handleAddExercise}
         />
       )}
